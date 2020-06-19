@@ -1,5 +1,6 @@
 package com.robert.accela;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,31 +9,25 @@ import java.sql.Statement;
 
 public class CreateTables {
    
-    public static void createNewPersonTable() {  
-        // SQLite connection string  
-        String url = "jdbc:sqlite:accela/src/main/resources/db/employees.db";
-          
+    public static void createNewPersonTable() {
         String sql = "CREATE TABLE IF NOT EXISTS PERSONS " +
         "(ID INT PRIMARY KEY     NOT NULL," +
         " FIRSTNAME      TEXT    NOT NULL, " + 
         " LASTNAME       TEXT    NOT NULL)"; 
           
-        createNewTable(url, sql);
+        createNewTable(CONSTANTS.URL, sql);
     }  
    
-    public static void createNewAddressTable() {  
-        // SQLite connection string  
-        String url = "jdbc:sqlite:accela/src/main/resources/db/employees.db";
-          
+    public static void createNewAddressTable() {
         String sql = "CREATE TABLE IF NOT EXISTS ADDRESSES " +
                 "(ID INT PRIMARY KEY     NOT NULL," +
                 " PERSONID       INT     NOT NULL, " + 
-                " STREET        CHAR(50), " + 
-                " CITY          CHAR(50), " + 
-                " STATE         CHAR(50), " + 
-                " POSTALCODE    CHAR(50))"; 
+                " STREET        VARCHAR(50), " + 
+                " CITY          VARCHAR(50), " + 
+                " STATE         VARCHAR(50), " + 
+                " POSTALCODE    VARCHAR(10))"; 
           
-        createNewTable(url, sql);
+        createNewTable(CONSTANTS.URL, sql);
     }  
 
     
@@ -48,12 +43,12 @@ public class CreateTables {
         }  
     }
    
-    /** 
-     * @param args the command line arguments 
-     */  
-    public static void main(String[] args) {  
-        createNewPersonTable();
-        createNewAddressTable();
+    public static void CreateBothTables() {  
+        File database = new File("accela/src/main/resources/db/employees.db");
+        if (!database.exists()) {
+            createNewPersonTable();
+            createNewAddressTable();
+        }
     }  
    
 }  

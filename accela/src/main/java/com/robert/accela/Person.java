@@ -1,6 +1,5 @@
 package com.robert.accela;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -8,6 +7,7 @@ public class Person {
 	private String firstName = null;
 	private String lastName = null;
 	private Integer id = null;
+	private Address address = null;
 
 	public String getFirstName() {
 		return firstName;
@@ -31,6 +31,13 @@ public class Person {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public String toString() {
