@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @CrossOrigin
-public class HomeController {
+public class DatabaseController {
 
     @GetMapping("/")
     public String home(Model model) {
-        return "Hello from Spring Boot";
+        return "Hello from Robert McElhinney";
     }
 
     @GetMapping("/person")
@@ -83,7 +83,6 @@ public class HomeController {
         }
 
         if (InteractTables.checkAddressExists(address.getId())) {
-            System.out.println("Address already exist");
             return new ResponseEntity<>("Address already exists", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
@@ -94,15 +93,11 @@ public class HomeController {
 
     @PostMapping(path = "/address/update", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> updateAddress(@RequestBody Address address) {
-        System.out.println("address.checkNull(): " + address.checkNull());
         if (address.checkNull()) {
-            System.out.println("Missing data. Try again.");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        System.out.println("add address " + address);
 
         if (!InteractTables.checkPersonExists(address.getPersonId())) {
-            System.out.println("Person does not exist");
             return new ResponseEntity<>("Person does not exist", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
@@ -113,7 +108,6 @@ public class HomeController {
 
     @GetMapping("/address/delete/{id}")
     public ResponseEntity<String> deleteAddress(@PathVariable("id") Integer id) {
-        System.out.println("delete id " + id);
         InteractTables.deleteAddress(id);
 
         return new ResponseEntity<>(HttpStatus.OK);

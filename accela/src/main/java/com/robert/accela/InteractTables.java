@@ -1,9 +1,7 @@
 package com.robert.accela;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.sql.*;
 
 
@@ -42,7 +40,6 @@ public class InteractTables {
                 + " FROM ADDRESSES LEFT JOIN PERSONS ON PERSONS.ID = ADDRESSES.PERSONID"
                 + " WHERE ADDRESSES.ID IS NULL";
         List<Person> persons = selectTable(sql);
-        System.out.println("persons: " + persons);
         return persons;
     }
 
@@ -59,11 +56,6 @@ public class InteractTables {
         String sql = "SELECT Count(*) AS total FROM ADDRESSES WHERE id=" + id + ";";
         return countTable(sql) != 0;
     }
-
-    // public static Boolean checkPersonHasAddress(Integer id) {
-    //     String sql = "SELECT Count(*) AS total FROM PERSONS WHERE id=" + id + ";";
-    //     return countTable(sql) != 0;
-    // }
 
     public static void insertAddress(Address address) {
         String sql = "INSERT INTO ADDRESSES (ID, PERSONID, STREET, CITY, STATE, POSTALCODE) " + "VALUES ('"
@@ -110,7 +102,6 @@ public class InteractTables {
     }
 
     public static List<Person> selectTable(String sql) {
-        System.out.println("selectTable");
         List<Person> persons = new ArrayList<Person>();
         Connection conn = null;
         Statement stmt = null;
@@ -119,11 +110,9 @@ public class InteractTables {
             conn = DriverManager.getConnection(CONSTANTS.URL);
             conn.setAutoCommit(false);
             stmt = conn.createStatement();
-            System.out.println("before rs1.next()");
 
             ResultSet rs1 = stmt.executeQuery(sql);
             while (rs1.next()) {
-                System.out.println("while rs1.next()");
                 Person person = new Person();
                 Address address = new Address();
                 person.setId(rs1.getInt("ID"));
@@ -166,7 +155,6 @@ public class InteractTables {
             stmt = conn.createStatement();
             ResultSet rs2 = stmt.executeQuery(sql);
             total = rs2.getInt("total");
-            System.out.println(total);
             rs2.close();
             stmt.close();
             conn.commit();
